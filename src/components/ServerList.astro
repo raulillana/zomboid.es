@@ -1,0 +1,56 @@
+---
+import { servers } from '../data/servers';
+import ServerCard from './ServerCard.astro';
+---
+
+<section class="server-list">
+  <h2 class="section-title">Servidores Españoles funcionando en B42.13.1 Multiplayer</h2>
+  <p class="section-subtitle">Ahora que ya tienes con quién, ¡elige donde quieres tu próxima aventura!</p>
+  <div class="servers-grid">
+    {servers.map(server => (
+      <ServerCard server={server} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .server-list {
+    width: 100%;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .servers-grid {
+    display: grid;
+    gap: var(--spacing-sm);
+  }
+
+  @media (min-width: 768px) {
+    .servers-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .servers-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

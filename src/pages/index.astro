@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DiscordButton from '../components/DiscordButton.astro';
+import ServerList from '../components/ServerList.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <main class="main">
+    <header class="hero">
+      <img src="/es_piffo.png" alt="Zomboid.es ES Piffo" class="isotipo" />
+      <img src="/zomboides-logo.png" alt="Zomboid.es" class="logo-text" />
+      <p class="tagline">Tu comunidad de Project Zomboid en español</p>
+      <DiscordButton />
+    </header>
+    <section class="content">
+      <ServerList />
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .isotipo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: var(--spacing-sm);
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(232, 93, 4, 0.3));
+  }
+
+  .logo-text {
+    max-width: 320px;
+    height: auto;
+    margin-bottom: var(--spacing-sm);
+    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .tagline {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .content {
+    padding: var(--spacing-lg) 0;
+  }
+
+  @media (min-width: 768px) {
+    .main {
+      padding: var(--spacing-lg);
+    }
+
+    .isotipo {
+      width: 160px;
+      height: 160px;
+    }
+
+    .logo-text {
+      max-width: 420px;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+    }
+  }
+</style>

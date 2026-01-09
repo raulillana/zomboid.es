@@ -1,0 +1,138 @@
+---
+import type { Server } from '../data/servers';
+
+interface Props {
+  server: Server;
+}
+
+const { server } = Astro.props;
+const connectionString = `${server.ip}:${server.port}`;
+---
+
+<article class="server-card">
+  <div class="server-header">
+    <h3 class="server-name">{server.name}</h3>
+    {server.slots && <span class="server-slots">{server.slots} slots</span>}
+  </div>
+  <p class="server-description">{server.description}</p>
+  <div class="server-footer">
+    <code class="server-ip">{connectionString}</code>
+    <div class="server-actions">
+      <button class="copy-button" data-ip={connectionString} title="Copiar IP">
+        <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+      {server.website && (
+        <a href={server.website} target="_blank" rel="noopener noreferrer" class="website-link" title="Visitar web">
+          <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .server-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .server-card:hover {
+    background-color: var(--color-bg-card-hover);
+    border-color: var(--color-accent);
+  }
+
+  .server-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .server-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .server-slots {
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .server-description {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
+  }
+
+  .server-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .server-ip {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.875rem;
+    background-color: var(--color-bg-secondary);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .server-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+  }
+
+  .copy-button,
+  .website-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .copy-button:hover,
+  .website-link:hover {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  .copy-icon,
+  .link-icon {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.copy-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      const ip = button.getAttribute('data-ip');
+      if (ip) {
+        await navigator.clipboard.writeText(ip);
+        button.classList.add('copied');
+        setTimeout(() => button.classList.remove('copied'), 1500);
+      }
+    });
+  });
+</script>

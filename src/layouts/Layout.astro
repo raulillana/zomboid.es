@@ -1,0 +1,165 @@
+---
+import { siteConfig } from '../data/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/es_piffo.png" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/es_piffo.png" />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="lightning-overlay" aria-hidden="true"></div>
+    <slot />
+  </body>
+</html>
+
+<script>
+  const lightning = document.querySelector('.lightning-overlay') as HTMLElement;
+
+  function triggerLightning() {
+    lightning.classList.add('flash');
+    setTimeout(() => {
+      lightning.classList.remove('flash');
+    }, 150);
+  }
+
+  function scheduleLightning() {
+    const delay = 8000 + Math.random() * 15000;
+    setTimeout(() => {
+      triggerLightning();
+      if (Math.random() > 0.5) {
+        setTimeout(triggerLightning, 100 + Math.random() * 200);
+      }
+      scheduleLightning();
+    }, delay);
+  }
+
+  scheduleLightning();
+
+  document.body.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
+      return;
+    }
+    triggerLightning();
+    if (Math.random() > 0.6) {
+      setTimeout(triggerLightning, 80 + Math.random() * 120);
+    }
+  });
+</script>
+
+<style is:global>
+  :root {
+    --color-bg-primary: #0a0a0a;
+    --color-bg-secondary: #141414;
+    --color-bg-card: #1a1a1a;
+    --color-bg-card-hover: #242424;
+    --color-border: #2a2a2a;
+    --color-text-primary: #f5f5f5;
+    --color-text-secondary: #a0a0a0;
+    --color-accent: #e85d04;
+    --color-accent-hover: #f48c06;
+    --color-discord: #5865F2;
+    --color-discord-hover: #4752c4;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-family: var(--font-family);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url('/627909.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .lightning-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background: linear-gradient(to bottom, rgba(220, 230, 255, 0.7) 0%, rgba(180, 200, 255, 0.3) 30%, transparent 70%);
+    opacity: 0;
+  }
+
+  .lightning-overlay.flash {
+    opacity: 1;
+    animation: lightning-flash 0.15s ease-out;
+  }
+
+  @keyframes lightning-flash {
+    0% { opacity: 1; }
+    20% { opacity: 0.4; }
+    40% { opacity: 0.9; }
+    100% { opacity: 0; }
+  }
+</style>
