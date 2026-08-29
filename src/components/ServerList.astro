@@ -4,7 +4,8 @@ import ServerCard from './ServerCard.astro';
 ---
 
 <section class="server-list">
-  <h2 class="section-title">Servidores Españoles funcionando en B42.13.1 Multiplayer</h2>
+  <p class="community-status">Servidores de la comunidad: <span class="status-off">DESACTIVADOS</span></p>
+  <h2 class="section-title">Servidores Comunitarios</h2>
   <p class="section-subtitle">Ahora que ya tienes con quién, ¡elige donde quieres tu próxima aventura!</p>
   <div class="servers-grid">
     {servers.map(server => (
@@ -16,6 +17,20 @@ import ServerCard from './ServerCard.astro';
 <style>
   .server-list {
     width: 100%;
+  }
+
+  .community-status {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-off {
+    color: var(--color-accent);
+    font-weight: 700;
   }
 
   .section-title {
